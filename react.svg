@@ -1,0 +1,54 @@
+import { useState } from 'react';
+import Sidebar from '../comps/sidebar';
+import TopBar from '../comps/topbar';
+import Historial from '../comps/historial';
+import Clientes from '../comps/clientes';
+import Fechas from '../comps/fechas';
+import Horarios from '../comps/horarios';
+
+const titulos = {
+  HISTORIAL: 'Historial de Movimientos',
+  CLIENTES: 'Base de Datos de Clientes',
+  FECHAS: 'Control de Reservaciones',
+  HORARIOS: 'Disponibilidad de Horarios',
+};
+
+function App() {
+  const [vista, setVista] = useState(null);
+
+  const volver = () => setVista(null);
+
+  const renderVista = () => {
+    switch (vista) {
+      case 'HISTORIAL': return <Historial volver={volver} />;
+      case 'CLIENTES': return <Clientes volver={volver} />;
+      case 'FECHAS': return <Fechas volver={volver} />;
+      case 'HORARIOS': return <Horarios volver={volver} />;
+      default: return (
+        <div className="module-panel" style={{ textAlign: 'center' }}>
+          <div className="module-title" style={{ justifyContent: 'center' }}>
+            <div className="icon-label">✨</div>
+            <div>
+              <h2>Bienvenido al Sistema del Restaurante</h2>
+              <p>Selecciona un módulo del menú lateral para empezar.</p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+  };
+
+  return (
+    <div className="app-shell">
+      <Sidebar cambiarVista={setVista} />
+      <div className="main-panel">
+        <TopBar titulo={titulos[vista] || 'Sistema Restaurante'} />
+        <main className="content-area">
+          {renderVista()}
+        </main>
+      </div>
+    </div>
+  );
+}
+
+export default App;
